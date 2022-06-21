@@ -14,30 +14,31 @@ class WalletController extends Controller
         if ($request->isSuccess == "true") {
             if ($request->status == "payment") {
                 $walletuser = wallet::where('user_id', $id)->latest()->first();
-                if ($walletuser = null || 0) {
+                if ($walletuser == null || 0) {
                     $amt = 0;
                     $wallet = new wallet();
                     $wallet->user_id = $id;
                     $wallet->wallet_amount = $amt + $request->amount;
+                    $wallet->description = "Wallet funding";
                     $wallet->save();
 
                     return response()->json([
-                        "discription" => "Account Funded Successful",
+                        "Description" => "Account Funded Successful",
                         "By" => $wallet->user_id,
-                        "amount" => $wallet->wallet_amount
+                        "Amount" => $wallet->wallet_amount
                     ], 200);
                 }else {
-                    $walletuser = wallet::where('user_id', $id)->latest()->first();
                     $amt = $walletuser->wallet_amount;
                     $wallet = new wallet();
                     $wallet->user_id = $id;
                     $wallet->wallet_amount = $amt + $request->amount;
+                    $wallet->description = "Wallet funding";
                     $wallet->save();
 
                     return response()->json([
-                        "discription" => "Account Funded Successful",
+                        "Description" => "Account Funded Successful",
                         "By" => $wallet->user_id,
-                        "amount" => $wallet->wallet_amount
+                        "Amount" => $wallet->wallet_amount
                     ], 200);
                 }
             }else if ($request->status == "recharge") {
@@ -50,9 +51,9 @@ class WalletController extends Controller
                     $wallet->save();
 
                     return response()->json([
-                        "status" => "Recharge Succesful",
-                        "by" => $wallet->user_id,
-                        "amount" => $wallet->wallet_amount,
+                        "Status" => "Recharge Succesful",
+                        "By" => $wallet->user_id,
+                        "Amount" => $wallet->wallet_amount,
                     ], 200);
                 }else {
                     $amt = $walletuser->wallet_amount;
@@ -62,15 +63,15 @@ class WalletController extends Controller
                     $wallet->save();
 
                     return response()->json([
-                        "status" => "Recharge Succesful",
-                        "by" => $wallet->user_id,
-                        "amount" => $wallet->wallet_amount,
+                        "Status" => "Recharge Succesful",
+                        "By" => $wallet->user_id,
+                        "Amount" => $wallet->wallet_amount,
                     ], 200);
                 }
             }
         }else {
             return response()->json([
-               'error' => 'request is not successful'
+               'error' => 'Request is not successful'
            ], 400);
         }
     }
@@ -79,6 +80,9 @@ class WalletController extends Controller
     {
         $walletuser = wallet::where('user_id', $id)->latest()->first();
 
-        return $walletuser->wallet_amount;
+        return response()->json([
+            'Amount' => $walletuser->wallet_amount,
+            'Description' => $walletuser->description
+        ], 400);
     }
 }

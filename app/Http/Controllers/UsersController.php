@@ -137,4 +137,11 @@ class UsersController extends Controller
             "details" => $login
         ], 200);
     }
+
+    // public function Logout($id)
+    // {
+    //     return response()->json([
+    //         "details" => "Logout"
+    //     ], 200);
+    // }
 }

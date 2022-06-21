@@ -74,11 +74,18 @@ class FundController extends Controller
                 ]);
 
             }else if($admin->isAdmin == 0){
-                $fundTrasfer = Fund::where('user_id',$id)->get();
+                $fundTransfer = Fund::where('user_id',$id)->get();
 
-                return response()->json([
-                    'transactions' => $fundTrasfer
-                ]);
+                if ($fundTransfer == null || 0) {
+                    return response()->json([
+                        'transactions' => "You don't have any fund transactions"
+                    ]);
+                }
+                else {
+                    return response()->json([
+                        'transactions' => $fundTransfer
+                    ]);
+                }
             }
     }
 

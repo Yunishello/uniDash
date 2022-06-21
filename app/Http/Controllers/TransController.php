@@ -25,7 +25,6 @@ class TransController extends Controller
                 'phone' => $request->phone,
                 'amount' => $request->amount,
                 'trans_id' => $request->trans_id,
-                'trans_date' => $request->trans_date,
                 'reqId' => $request->reqId,
                 'user_id' => $id
             ]);
